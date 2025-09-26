@@ -1,14 +1,396 @@
-
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anup Khadka — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://kit.fontawesome.com/5c2b0b2d2a.js" crossorigin="anonymous"></script>
+  <style>
+    :root{
+      --bg:#0b0f17;          /* deep space */
+      --panel:#0f1523;       /* card background */
+      --muted:#a7b3c2;
+      --text:#e6eefc;
+      --primary:#7c9cff;     /* neon blue */
+      --accent:#8d5bff;      /* purple */
+      --neon:#00f5d4;        /* teal neon */
+      --danger:#ff6a9e;      /* pink */
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; color:var(--text); background:radial-gradient(1200px 800px at 70% -10%, rgba(124,156,255,.15), transparent 55%),
+      radial-gradient(800px 600px at -10% 20%, rgba(0,245,212,.08), transparent 60%),
+      var(--bg);
+      font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    /* Navigation */
+    .nav{
+      position:fixed; inset:20px 20px auto 20px; height:64px; z-index:999;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 18px; border-radius:calc(var(--radius) + 6px);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+      box-shadow:var(--shadow); border:1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+    }
+    .brand{font-family:"Space Grotesk", Inter, sans-serif; font-weight:700; letter-spacing:.3px}
+    .brand .dot{color:var(--neon)}
+    .nav a{color:var(--muted); text-decoration:none; margin:0 10px; font-weight:600}
+    .nav a:hover{color:var(--text)}
+    .nav .cta{padding:10px 14px; border-radius:12px; background:linear-gradient(90deg, var(--primary), var(--accent));
+      color:#0b0f17 !important; text-decoration:none; box-shadow:0 6px 20px rgba(124,156,255,.35)}
+    .menu{display:flex; align-items:center}
 
-<meta charset="utf-8">
-<title>Anup Khdka</title>
+    /* Sections */
+    section{max-width:1200px; margin:0 auto; padding:120px 24px}
 
+    /* Decorative floating aurora blobs */
+    .blob{position:fixed; z-index:-1; filter:blur(60px); opacity:.40; pointer-events:none}
+    .blob.one{width:520px; height:520px; right:-100px; top:-60px; background:radial-gradient(circle at 30% 30%, #6ee7ff, transparent 60%), radial-gradient(circle at 70% 70%, #9b8cff, transparent 55%)}
+    .blob.two{width:420px; height:420px; left:-120px; bottom:0; background:radial-gradient(circle at 30% 30%, #00f5d4, transparent 60%), radial-gradient(circle at 70% 70%, #ff7ac6, transparent 55%)}
+
+    /* HERO */
+    .hero{display:grid; grid-template-columns:1.2fr .8fr; gap:36px; align-items:center; min-height:90vh}
+    .tag{display:inline-flex; gap:8px; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,.1); color:var(--muted);
+      background:rgba(255,255,255,.02)}
+    .title{font-family:"Space Grotesk"; font-weight:900; font-size:clamp(38px, 6vw, 64px); line-height:1.05; margin:10px 0 14px}
+    .title span{background:linear-gradient(90deg, var(--primary), var(--neon)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent}
+    .lead{color:var(--muted); font-size:1.1rem; max-width:60ch}
+    .actions{margin-top:26px; display:flex; flex-wrap:wrap; gap:14px}
+    .btn{padding:14px 18px; border-radius:14px; border:1px solid rgba(255,255,255,.1); cursor:pointer; font-weight:700;
+      color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); transition:.25s transform, .25s box-shadow}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(140,120,255,.25)}
+    .btn.primary{background:linear-gradient(90deg, var(--primary), var(--accent)); color:#0b0f17; border:0}
+
+    .profile{
+      position:relative; aspect-ratio:1; border-radius:24px; overflow:hidden; border:1px solid rgba(255,255,255,.1);
+      background: url('profile.jpg') center/cover no-repeat, #0e1422;
+      box-shadow:0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+      box-shadow:0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .profile::after{content:''; position:absolute; inset:0; background:radial-gradient(120% 120% at 20% 80%, rgba(0,245,212,.25), transparent 60%)}
+    .profile .ring{position:absolute; inset:-12px; border-radius:28px; border:2px dashed rgba(255,255,255,.12); mix-blend:screen; animation: spin 18s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Cards + glass */
+    .glass{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius); box-shadow:var(--shadow)}
+
+    /* ABOUT */
+    .about{display:grid; grid-template-columns:1.1fr .9fr; gap:26px}
+    .about p{color:var(--muted); line-height:1.75}
+    .chip{display:inline-block; margin:8px 8px 0 0; padding:8px 12px; border-radius:999px; font-weight:600; color:#0b0f17;
+      background:linear-gradient(90deg, var(--neon), var(--primary));}
+
+    /* SKILLS */
+    .skills{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px}
+    .skill{padding:18px; position:relative; overflow:hidden}
+    .skill h4{margin:0 0 6px; font-family:"Space Grotesk"}
+    .bar{height:8px; background:#141b2a; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.06)}
+    .bar>span{display:block; height:100%; width:0; background:linear-gradient(90deg, var(--neon), var(--primary)); box-shadow:0 0 18px rgba(0,245,212,.35) inset}
+    .skill small{color:var(--muted)}
+
+    /* PROJECTS */
+    .projects{display:grid; grid-template-columns:repeat(3, 1fr); gap:18px}
+    .card{position:relative; overflow:hidden; padding:0}
+    .thumb{aspect-ratio:16/10; background:#0e1422; background-size:cover; background-position:center}
+    .card .info{padding:16px}
+    .card h4{margin:0 0 6px}
+    .hover-reveal{position:absolute; inset:0; background:linear-gradient(180deg, rgba(124,156,255,.15), rgba(0,0,0,0)); opacity:0; transition:.35s}
+    .card:hover .hover-reveal{opacity:1}
+
+    /* EXPERIENCE TIMELINE */
+    .timeline{position:relative; margin-left:8px}
+    .timeline::before{content:""; position:absolute; left:18px; top:0; bottom:0; width:2px; background:linear-gradient(var(--neon), transparent)}
+    .item{position:relative; margin:24px 0 24px 36px; padding:18px}
+    .item::before{content:""; position:absolute; left:-24px; top:22px; width:14px; height:14px; border-radius:50%; background:var(--neon); box-shadow:0 0 16px var(--neon)}
+
+    /* EDUCATION + ACHIEVEMENTS */
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+    .kpi{display:flex; align-items:center; gap:16px}
+    .kpi .num{font-size:34px; font-weight:900; font-family:"Space Grotesk"}
+    .kpi .badge{padding:6px 10px; border-radius:999px; background:rgba(0,245,212,.15); color:var(--neon); font-weight:700}
+
+    /* CONTACT */
+    form{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    form input, form textarea{width:100%; padding:14px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.03); color:var(--text)}
+    form textarea{grid-column:1/-1; min-height:140px; resize:vertical}
+
+    /* Footer */
+    footer{padding:48px 24px; text-align:center; color:var(--muted)}
+    .social a{color:var(--muted); margin:0 10px}
+    .social a:hover{color:var(--text)}
+
+    /* Utilities */
+    h2{font-family:"Space Grotesk"; font-size:clamp(26px, 3.6vw, 42px); margin:0 0 18px}
+    h3{font-family:"Space Grotesk"}
+    .muted{color:var(--muted)}
+    .section-head{display:flex; align-items:baseline; gap:12px}
+    .section-head .pill{font-size:.85rem; color:#0b0f17; padding:6px 10px; border-radius:999px; background:linear-gradient(90deg, var(--primary), var(--neon))}
+
+    /* Responsive */
+    @media (max-width:1050px){
+      .hero{grid-template-columns:1fr; padding-top:140px}
+    }
+    @media (max-width:900px){
+      .skills{grid-template-columns:repeat(2,1fr)}
+      .projects{grid-template-columns:1fr 1fr}
+      .about{grid-template-columns:1fr}
+      .nav{left:12px; right:12px}
+    }
+    @media (max-width:640px){
+      .projects{grid-template-columns:1fr}
+      form{grid-template-columns:1fr}
+    }
+  </style>
+</head>
 <body>
-   <h1>This is a Heading</h1>
-   <p>This is a paragraph.</p>
-   <p>This is another paragraph.</p>
-</body>
+  <!-- floating aurora blobs -->
+  <div class="blob one"></div>
+  <div class="blob two"></div>
 
+  <nav class="nav glass">
+    <div class="brand">anup<span class="dot">_</span>khadka</div>
+    <div class="menu">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+      <a class="cta" href="#contact">Hire Me</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="home">
+    <div data-aos="fade-right" data-aos-duration="900">
+      <span class="tag"><i class="fa-solid fa-bolt"></i> Building scalable web apps</span>
+      <h1 class="title">Hi, I'm Anup.<br/><span>Software Engineer</span> crafting modern, data‑driven systems.</h1>
+      <p class="lead">Python/Django specialist with hands‑on experience in EDI automation, cloud deployment, and full‑stack product delivery. I love shipping reliable software that feels futuristic and delightful.</p>
+      <div class="actions">
+        <a class="btn primary" href="#contact"><i class="fa-solid fa-handshake-simple"></i> Hire Me</a>
+        <a class="btn" href="#projects"><i class="fa-solid fa-laptop-code"></i> View Projects</a>
+        <a class="btn" href="resume.pdf" target="_blank"><i class="fa-regular fa-file-lines"></i> View Resume</a>
+        <a class="btn" href="https://github.com/anup8080" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+      </div>
+    </div>
+    <div data-aos="zoom-in" data-aos-duration="1000">
+      
+       <div class="profile glass" id="profile" style="background-image:url('profile.jpg')"></div>
+        <div class="ring"></div>
+      </div>
+      {% comment %} <small class="muted">Tip: replace the image URL in <code>.profile</code> with your animated photo/GIF.</small> {% endcomment %}
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head"><h2>About Me</h2><span class="pill">Summary</span></div>
+    <div class="about">
+      <div class="glass" style="padding:22px" data-aos="fade-up">
+        <p>
+          I’m a software developer focused on backend systems, integrations and sleek UX. I’ve built EDI pipelines, Django apps, and data workflows used in production. My current interests include event‑driven architectures, search, and interactive web experiences.
+        </p>
+        <div style="margin-top:8px">
+          <span class="chip">Python</span>
+          <span class="chip">Django / DRF</span>
+          <span class="chip">Flask</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Docker</span>
+          <span class="chip">Elasticsearch</span>
+        </div>
+      </div>
+      <div class="glass" style="padding:22px" data-aos="fade-left">
+        <h3 style="margin-top:0">Highlights</h3>
+        <ul class="muted">
+          <li>Automated translation of EDI ↔ CSV/XML, integrating with accounting platforms.</li>
+          <li>Deployed scalable file‑upload microservice on DigitalOcean (Flask).</li>
+          <li>Built FOIA analytics with Elasticsearch + Pandas.</li>
+          <li>Collaborated cross‑functionally to ship features fast and safely.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head"><h2>Skills & Tech Stack</h2><span class="pill">Tools</span></div>
+    <div class="skills">
+      <div class="skill glass" data-skill="92" data-aos="fade-up"><h4>Python</h4><div class="bar"><span></span></div><small>Advanced</small></div>
+      <div class="skill glass" data-skill="88" data-aos="fade-up" data-aos-delay="50"><h4>Django / DRF</h4><div class="bar"><span></span></div><small>Advanced</small></div>
+      <div class="skill glass" data-skill="70" data-aos="fade-up" data-aos-delay="100"><h4>Flask</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+      <div class="skill glass" data-skill="80" data-aos="fade-up" data-aos-delay="150"><h4>PostgreSQL / SQL</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+      <div class="skill glass" data-skill="68" data-aos="fade-up"><h4>JavaScript</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+      <div class="skill glass" data-skill="76" data-aos="fade-up" data-aos-delay="50"><h4>Docker</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+      <div class="skill glass" data-skill="72" data-aos="fade-up" data-aos-delay="100"><h4>Elasticsearch</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+      <div class="skill glass" data-skill="65" data-aos="fade-up" data-aos-delay="150"><h4>Pandas / NumPy</h4><div class="bar"><span></span></div><small>Proficient</small></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head"><h2>Projects / Portfolio</h2><span class="pill">Selected</span></div>
+    <div class="projects">
+      <article class="card glass" data-aos="zoom-in">
+        <div class="hover-reveal"></div>
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="info">
+          <h4>Commerce Network (EDI)</h4>
+          <p class="muted">Django + DRF platform enabling automated EDI exchange with trading partners; CSV/XML transforms; QuickBooks integration.</p>
+        </div>
+      </article>
+      <article class="card glass" data-aos="zoom-in" data-aos-delay="80">
+        <div class="hover-reveal"></div>
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="info">
+          <h4>OCAS — ADBL</h4>
+          <p class="muted">Online credit application system (Django, PostgreSQL). Eligibility scoring, REST APIs, and admin workflows.</p>
+        </div>
+      </article>
+      <article class="card glass" data-aos="zoom-in" data-aos-delay="160">
+        <div class="hover-reveal"></div>
+        <div class="thumb" style="background-image:url('https://images.unsplash.com/photo-1526378722484-bd91ca387e72?q=80&w=1200&auto=format&fit=crop');"></div>
+        <div class="info">
+          <h4>FOIA Analytics</h4>
+          <p class="muted">Ingested and analyzed FOIA datasets using Pandas + Elasticsearch with realtime dashboards.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head"><h2>Experience</h2><span class="pill">Timeline</span></div>
+    <div class="timeline">
+      <div class="item glass" data-aos="fade-right">
+        <h3>Senior Engineer — Prime Vendor Nepal</h3>
+        <small class="muted">Dec 2023 — Present · Kathmandu</small>
+        <p class="muted">Built and maintained Commerce Network (Django), EDI automation for Amazon orders, cloud file services, and data processing pipelines.</p>
+      </div>
+      <div class="item glass" data-aos="fade-right" data-aos-delay="100">
+        <h3>Python Developer — Infodevelopers</h3>
+        <small class="muted">Jul 2021 — Dec 2023 · Sanepa</small>
+        <p class="muted">Shipped OCAS (ADBL), mDabali site, and Garage e‑commerce features. Participated in requirements analysis and database design.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <div class="section-head"><h2>Education & Achievements</h2><span class="pill">Growth</span></div>
+    <div class="grid-2">
+      <div class="glass" style="padding:18px" data-aos="fade-up">
+        <h3>Bachelor in Computer Science — Kathmandu University</h3>
+        <small class="muted">2017 — 2022</small>
+        <p class="muted">Academic project: Handwritten Character Recognition (Keras, Pandas).</p>
+      </div>
+      <div class="glass" style="padding:18px" data-aos="fade-up" data-aos-delay="80">
+        <div class="kpi">
+          <div class="num" data-count="20">0</div>
+          <div>
+            <div class="badge">Impact</div>
+            <div class="muted">+ production features shipped across products</div>
+          </div>
+        </div>
+        <div class="kpi" style="margin-top:12px">
+          <div class="num" data-count="5">0</div>
+          <div>
+            <div class="badge">Projects</div>
+            <div class="muted">major apps delivered end‑to‑end</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head"><h2>Contact</h2><span class="pill">Let’s build</span></div>
+    <div class="grid-2">
+      <div class="glass" style="padding:22px" data-aos="fade-right">
+        <h3>Send a message</h3>
+        <form id="contactForm" action="https://formspree.io/f/your-id" method="POST">
+          <input type="text" name="name" placeholder="Your name" required>
+          <input type="email" name="email" placeholder="Email address" required>
+          <textarea name="message" placeholder="What would you like to build?" required></textarea>
+          <button class="btn primary" type="submit">Send</button>
+        </form>
+      </div>
+      <div class="glass" style="padding:22px" data-aos="fade-left">
+        <h3>Elsewhere</h3>
+        <p class="muted">I’m active on these platforms—always open to collaboration.</p>
+        <p class="social">
+          <a href="https://github.com/" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+          · <a href="https://linkedin.com/in/anup-khadka-9a3356233" target="_blank"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+          · <a href="mailto:khadkanup22@gmail.com"><i class="fa-regular fa-envelope"></i> Email</a>
+        </p>
+        <p style="margin-top:16px" class="muted"><i class="fa-solid fa-location-dot"></i> Kathmandu, Nepal</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© <span id="year"></span> Anup Khadka • Designed with <i class="fa-solid fa-heart"></i> and GSAP/AOS</div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ once:true, offset: 80 });
+
+    // GSAP: profile float + parallax blobs
+    gsap.to('#profile', { y: -8, repeat:-1, yoyo:true, ease: 'sine.inOut', duration:2.2 });
+    gsap.to('.blob.one', { x: 30, y: 20, scale:1.03, repeat:-1, yoyo:true, ease:'sine.inOut', duration:6 });
+    gsap.to('.blob.two', { x: -24, y: -16, scale:1.02, repeat:-1, yoyo:true, ease:'sine.inOut', duration:7 });
+
+    // Progress bars animate on enter
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          const el = entry.target;
+          const val = el.dataset.skill || 70;
+          const bar = el.querySelector('.bar>span');
+          bar.style.width = val + '%';
+          bar.style.transition = 'width 1.2s cubic-bezier(.22,1,.36,1)';
+          io.unobserve(el);
+        }
+      })
+    }, {threshold: .35});
+    document.querySelectorAll('.skill').forEach(s=>io.observe(s));
+
+    // Count-up KPIs
+    const counters = document.querySelectorAll('.num');
+    const io2 = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          const el = e.target; const end = +el.dataset.count; let cur=0; const step = Math.ceil(end/60);
+          const tick = ()=>{cur += step; if(cur>end) cur=end; el.textContent = cur; if(cur<end) requestAnimationFrame(tick);};
+          tick(); io2.unobserve(el);
+        }
+      })
+    }, {threshold:.6});
+    counters.forEach(c=>io2.observe(c));
+
+    // Smooth anchor fix for fixed nav spacing
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const id = a.getAttribute('href');
+        if(id.length>1){e.preventDefault(); document.querySelector(id).scrollIntoView({behavior:'smooth', block:'start'});} 
+      })
+    })
+
+    // Contact form UX (demo)
+    const f = document.getElementById('contactForm');
+    f.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const btn = f.querySelector('button'); const txt = btn.textContent; btn.disabled=true; btn.textContent='Sending…';
+      setTimeout(()=>{btn.textContent='Sent ✓'; setTimeout(()=>{btn.disabled=false; btn.textContent=txt; f.reset();}, 1500)}, 900);
+    });
+
+    // Year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
 </html>
