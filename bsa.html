@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Move With Meaning — Bhaisepati Sports Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+        --accent: #CCFF00;
+        --nano-green: #eaffcc;
+        --hero-img: url('./assets/bsa/badminton.jpeg'); /* Local image path */
+        --bg1: #f9f9f9;
+        --bg2: #e7ffe0;
+        --bg3: #d8ffcc;
+        --text-dark: #111111;
+        --muted: #666666;
+        --glass: rgba(255,255,255,0.65);
+        --card-shadow: 0 10px 40px rgba(6,10,14,0.08);
+        }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      color: var(--text-dark);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header */
+    .header-wrap {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 18px;
+      width: min(1150px, calc(100% - 40px));
+      z-index: 1200;
+      display: flex;
+      justify-content: center;
+    }
+
+    header.pill {
+      width: 100%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(255,255,255,0.6));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 6px 30px rgba(8,12,18,0.08);
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      justify-content: space-between;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .logo {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-left: 6px;
+    }
+
+    .logo .mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo .mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .logo .title {
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: var(--text-dark);
+    }
+
+    /* Navigation */
+    nav.center-nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+    }
+
+    nav.center-nav a {
+      color: rgba(17,17,17,0.7);
+      font-weight: 600;
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: color .22s, transform .22s;
+      position: relative;
+    }
+
+    nav.center-nav a:hover {
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    /* Header Actions */
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-contact {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid rgba(0,0,0,0.06);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      backdrop-filter: blur(6px);
+    }
+
+    .btn-contact:hover {
+      background: linear-gradient(90deg, rgba(204,255,0,0.12), rgba(204,255,0,0.06));
+      box-shadow: 0 8px 26px rgba(204,255,0,0.06);
+      color: var(--text-dark);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 20px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      background-image: var(--hero-img);
+      background-size: cover;
+      background-position: center;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .hero-bg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom, 
+        rgba(255,255,255,0) 0%, 
+        rgba(255,255,255,0.2) 30%, 
+        rgba(255,255,255,0.4) 50%, 
+        rgba(255,255,255,0.7) 70%, 
+        rgba(255,255,255,0.9) 100%
+      );
+      z-index: 1;
+    }
+
+    .hero-gradient {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(204,255,0,0.15) 0%, rgba(234,255,200,0.08) 100%);
+      z-index: -2;
+    }
+
+    .hero-inner {
+      max-width: 1100px;
+      width: 100%;
+      padding: 40px;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1.hero-title {
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      margin: 0;
+      line-height: 1.02;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.02em;
+    }
+
+    h1.hero-title span {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--accent);
+      display: inline-block;
+      margin-left: 6px;
+    }
+
+    p.hero-sub {
+      color: #ffffff;
+      max-width: 720px;
+      margin-top: 18px;
+      font-size: 1.05rem;
+    }
+
+    .hero-cta-row {
+      margin-top: 26px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .btn-glass {
+      padding: 12px 22px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(255,255,255,0.6);
+      backdrop-filter: blur(8px);
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .22s, box-shadow .22s, background .22s, color .22s;
+    }
+
+    .btn-glass:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.5);
+      color: var(--accent);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Image Slider */
+    .image-slider {
+      position: relative;
+      margin-top: 48px;
+      width: 100%;
+      max-width: 980px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(234,255,200,0.18), rgba(255,255,255,0.04));
+      border: 1px solid rgba(6,10,14,0.04);
+      box-shadow: 0 18px 50px rgba(8,12,14,0.06);
+      padding: 26px;
+    }
+
+    .slider-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .slider-track {
+      display: flex;
+      width: 500%;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .slider-slide {
+      width: 20%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .slider-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.9);
+    }
+
+    .slide-content {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+      text-align: left;
+      z-index: 2;
+    }
+
+    .slide-content h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .slide-content p {
+      font-size: 0.9rem;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .slider-nav {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 10px;
+    }
+
+    .slider-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .slider-dot.active {
+      background: var(--accent);
+      transform: scale(1.2);
+    }
+
+    /* Facilities */
+    .facilities {
+      padding: 100px 20px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .facilities h2 {
+      font-size: 2.2rem;
+      margin-bottom: 36px;
+    }
+
+    .facility-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .facility-card {
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 8px 30px rgba(6,10,14,0.06);
+      transition: transform .35s, box-shadow .35s;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .facility-card.animate {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .facility-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: transform .6s;
+    }
+
+    .facility-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(6,10,14,0.08);
+    }
+
+    .facility-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .facility-content {
+      padding: 16px 18px;
+    }
+
+    .facility-content h3 {
+      margin: 0 0 8px 0;
+      font-size: 1.12rem;
+    }
+
+    .facility-content p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* About */
+    .about {
+      padding: 100px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(204,255,0,0.1) 0%, rgba(234,255,200,0.15) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(204,255,0,0.15) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    .about h2 {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about p {
+      max-width: 900px;
+      margin: 0 auto;
+      color: var(--text-dark);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Contact */
+    .contact {
+      padding: 80px 20px;
+      background: #fff;
+      text-align: center;
+    }
+
+    .contact form {
+      max-width: 700px;
+      margin: 18px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .contact form.animate {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .contact input,
+    .contact textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact input:focus,
+    .contact textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(204,255,0,0.2);
+    }
+
+    .contact button {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--accent);
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(204,255,0,0.4);
+    }
+
+    footer {
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* Section Animations */
+    .section-animate {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .section-animate.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 880px) {
+      nav.center-nav {
+        gap: 12px;
+      }
+      .logo .title {
+        display: none;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .image-slider {
+        padding: 18px;
+      }
+      .slider-container {
+        height: 250px;
+      }
+      nav.center-nav {
+        display: none;
+      }
+    }
+
+    @media (max-width: 520px) {
+      header.pill {
+        padding: 8px 12px;
+      }
+      .hero {
+        padding-top: 120px;
+      }
+      .hero-inner {
+        padding: 12px;
+      }
+      .slider-container {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header-wrap">
+    <header class="pill" role="banner" aria-label="Main header">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div class="logo" aria-hidden="false">
+          <div class="mark">
+            <img src="./assets/bsa/bsa_logo.jpg" alt="Bhaisepati Sports Academy Logo">
+          </div>
+          <div class="title">Bhaisepati Sports Academy</div>
+        </div>
+      </div>
+
+      <nav class="center-nav" role="navigation" aria-label="Primary">
+        <a href="#hero">Home</a>
+        <a href="#facilities">Facilities</a>
+        <a href="#about">About Us</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn-contact" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+      </div>
+    </header>
+  </div>
+
+  <!-- Hero Section -->
+  <main>
+    <section id="hero" class="hero" aria-labelledby="hero-title">
+      <div class="hero-bg-container">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-bg-overlay" aria-hidden="true"></div>
+      </div>
+      <div class="hero-gradient" aria-hidden="true"></div>
+
+      <div class="hero-inner">
+        <h1 id="hero-title" class="hero-title">Train. Transform.<span>Triumph</span></h1>
+        <p class="hero-sub">A world-class academy for fitness, focus, and performance — featuring badminton, swimming, gym, sauna, and more.</p>
+
+        <div class="hero-cta-row">
+          <a class="btn-glass" href="#facilities">Explore Programs</a>
+        </div>
+
+        <!-- Image Slider -->
+        <div class="image-slider" id="imageSlider">
+          <div class="slider-container">
+            <div class="slider-track">
+              <div class="slider-slide">
+                <img src="./assets/bsa/badminton.jpeg" alt="Badminton Court">
+                <div class="slide-content">
+                  <h3>Badminton Arena</h3>
+                  <p>Professional indoor courts with expert coaching</p>
+                </div>
+              </div>
+              <div class="slider-slide">
+                <img src="./assets/bsa/gym.avif" alt="Gym">
+                <div class="slide-content">
+                  <h3>Gym & Conditioning</h3>
+                  <p>State-of-the-art equipment and personalized programs</p>
+                </div>
+              </div>
+              <div class="slider-slide">
+                <img src="./assets/bsa/swimming.avif" alt="Swimming Pool">
+                <div class="slide-content">
+                  <h3>Swimming Pool</h3>
+                  <p>Olympic-sized pool for training and recreation</p>
+                </div>
+              </div>
+              <div class="slider-slide">
+                <img src="./assets/bsa/wellness.jpeg" alt="Sauna">
+                <div class="slide-content">
+                  <h3>Wellness & Recovery</h3>
+                  <p>Sauna, steam, and recovery facilities</p>
+                </div>
+              </div>
+              <div class="slider-slide">
+                <img src="./assets/bsa/training.avif" alt="Fitness Training">
+                <div class="slide-content">
+                  <h3>Fitness Training</h3>
+                  <p>Group classes and personal training sessions</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="slider-nav">
+            <div class="slider-dot active" data-slide="0"></div>
+            <div class="slider-dot" data-slide="1"></div>
+            <div class="slider-dot" data-slide="2"></div>
+            <div class="slider-dot" data-slide="3"></div>
+            <div class="slider-dot" data-slide="4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Facilities -->
+    <section id="facilities" class="facilities section-animate" aria-labelledby="facilities-heading">
+      <h2 id="facilities-heading">Our Programs & Facilities</h2>
+
+      <div class="facility-grid">
+        <div class="facility-card">
+          <img src="./assets/bsa/badminton.jpeg" alt="Badminton Court">
+          <div class="facility-content">
+            <h3>Badminton Arena</h3>
+            <p>Pro-level indoor courts, coaching & match practice.</p>
+          </div>
+        </div>
+
+        <div class="facility-card">
+          <img src="./assets/bsa/gym.avif" alt="Gym">
+          <div class="facility-content">
+            <h3>Gym & Conditioning</h3>
+            <p>Strength training, conditioning, personalized programs.</p>
+          </div>
+        </div>
+
+        <div class="facility-card">
+          <img src="./assets/bsa/wellness.jpeg" alt="Recovery">
+          <div class="facility-content">
+            <h3>Wellness & Recovery</h3>
+            <p>Sauna, steam, mobility and recovery sessions.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="about section-animate" aria-labelledby="about-heading">
+      <h2 id="about-heading">About Us</h2>
+      <p>At Bhaisepati Sports Academy we combine expert coaching, community, and modern facilities to cultivate skills and confidence. Our mission is to help players of all ages move better and play with purpose.</p>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact section-animate" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact Us</h2>
+      <p>Book a trial, ask about programs, or visit us.</p>
+      <form style="max-width:700px;margin:18px auto;display:flex;flex-direction:column;gap:12px">
+        <input placeholder="Your name" required>
+        <input placeholder="Phone or email" required>
+        <textarea rows="4" placeholder="Message"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+
+    <footer>© <span id="year"></span> Bhaisepati Sports Academy Center</footer>
+  </main>
+
+  <script>
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Image Slider Functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const track = document.querySelector('.slider-track');
+      const dots = document.querySelectorAll('.slider-dot');
+      let currentSlide = 0;
+      const slideCount = 5;
+      
+      // Function to update slider position
+      function updateSlider() {
+        track.style.transform = `translateX(-${currentSlide * 20}%)`;
+        
+        // Update active dot
+        dots.forEach((dot, index) => {
+          if (index === currentSlide) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      }
+      
+      // Auto slide every 4 seconds
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % slideCount;
+        updateSlider();
+      }, 4000);
+      
+      // Dot click events
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentSlide = index;
+          updateSlider();
+        });
+      });
+    });
+
+    // Section Animation on Scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const animatedSections = document.querySelectorAll('.section-animate');
+      const facilityCards = document.querySelectorAll('.facility-card');
+      const contactForm = document.querySelector('.contact form');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            
+            // Animate facility cards with delay
+            if (entry.target.id === 'facilities') {
+              facilityCards.forEach((card, index) => {
+                setTimeout(() => {
+                  card.classList.add('animate');
+                }, index * 200);
+              });
+            }
+            
+            // Animate contact form
+            if (entry.target.id === 'contact') {
+              setTimeout(() => {
+                contactForm.classList.add('animate');
+              }, 300);
+            }
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      });
+      
+      animatedSections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+
+    // Hero Section Motion Animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const heroTitle = document.querySelector('.hero-title');
+      const heroSub = document.querySelector('.hero-sub');
+      const heroCta = document.querySelector('.hero-cta-row');
+      
+      // Initial state
+      gsap.set([heroTitle, heroSub, heroCta], {
+        y: 30,
+        opacity: 0
+      });
+      
+      // Hero animation timeline
+      const heroTl = gsap.timeline();
+      heroTl.to(heroTitle, {
+        duration: 0.8,
+        y: 0,
+        opacity: 1,
+        ease: "power2.out"
+      })
+      .to(heroSub, {
+        duration: 0.6,
+        y: 0,
+        opacity: 1,
+        ease: "power2.out"
+      }, "-=0.4")
+      .to(heroCta, {
+        duration: 0.6,
+        y: 0,
+        opacity: 1,
+        ease: "power2.out"
+      }, "-=0.4");
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</body>
+</html>
